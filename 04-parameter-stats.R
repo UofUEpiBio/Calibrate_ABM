@@ -1,7 +1,7 @@
 library(tidyverse)
 library(ggplot2)
 library(patchwork)
-#source("~/Desktop/Sims_calibrate/abc_true_lstm_004.R")
+
 # Assuming you have params_all from your main script
 df <- read_csv("~/sima/Calibrate_ABM/data-result/params_all.csv")
 
@@ -223,7 +223,7 @@ library(patchwork)
 # 4. Save or display
 ggsave("~/sima/Calibrate_ABM/figures/bias_box_crate.png", p_crate, width = 4, height = 6, dpi = 300)
 ggsave("~/sima/Calibrate_ABM/figures/bias_box_ptran.png", p_ptran, width = 4, height = 6, dpi = 300)
-ggsave("~/sima/Calibrate_ABM/figures/combined_box_plots.png", combined_plot, width = 4, height = 6, dpi = 300)
+ggsave("~/sima/Calibrate_ABM/figures/combined_box_plots.png", combined_plot, width = 15, height = 10, dpi = 300)
 
 
 
