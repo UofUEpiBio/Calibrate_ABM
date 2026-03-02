@@ -1,9 +1,9 @@
 library(tidyverse)
 library(ggplot2)
 library(patchwork)
-source("~/Desktop/Sims_calibrate/abc_true_lstm_004.R")
+#source("~/Desktop/Sims_calibrate/abc_true_lstm_004.R")
 # Assuming you have params_all from your main script
-df <- read_csv("params_all.csv")
+df <- read_csv("~/sima/Calibrate_ABM/data-result/params_all.csv")
 
 # Step 1: Pivot to wide format and calculate R0
 df_wide <- df %>%
@@ -81,8 +81,8 @@ bias_summary_table <- bias_long %>%
   ) %>%
   arrange(param, method)
 
-write_csv(bias_summary_table, "~/Desktop/Sims_calibrate/figures/bias_summary_table.csv")
-saveRDS(bias_summary_table, "~/Desktop/Sims_calibrate/figures/bias_summary_table.rds")
+write_csv(bias_summary_table, "~/sima/Calibrate_ABM/data-result/bias_summary_table.csv")
+saveRDS(bias_summary_table, "~/sima/Calibrate_ABM/data-result/bias_summary_table.rds")
 
 # Box plots
 
@@ -221,85 +221,9 @@ library(patchwork)
 
 
 # 4. Save or display
-ggsave("bias_box_crate.png", p_crate, width = 4, height = 6, dpi = 300)
-ggsave("bias_box_ptran.png", p_ptran, width = 4, height = 6, dpi = 300)
+ggsave("~/sima/Calibrate_ABM/figures/bias_box_crate.png", p_crate, width = 4, height = 6, dpi = 300)
+ggsave("~/sima/Calibrate_ABM/figures/bias_box_ptran.png", p_ptran, width = 4, height = 6, dpi = 300)
+ggsave("~/sima/Calibrate_ABM/figures/combined_box_plots.png", combined_plot, width = 4, height = 6, dpi = 300)
 
-# to view in the console:
-p_crate
-p_ptran
 
-make_param_plot <- function(param_name, param_label, log_y = FALSE) {
-  
-  # 1) Subset & truncate R₀ if requested
-  df_sub <- bias_long %>% 
-    filter(param == param_name)
-  if (param_name == "R0") {
-    df_sub <- df_sub %>% filter(abs(value) <= 15)
-  }
-  
-  # 2) Compute MAE and Mean Bias per method
-  stats_df <- df_sub %>%
-    group_by(method) %>%
-    summarise(
-      mae        = mean(abs(value), na.rm = TRUE),
-      mean_bias  = mean(value, na.rm = TRUE),
-      .groups    = "drop"
-    ) %>%
-    mutate(
-      label = sprintf("MAE: %.4f\nMean: %.4f", mean_bias)
-    )
-  
-  # 3) Figure out where to place text (5% below the min)
-  y_min   <- min(df_sub$value, na.rm = TRUE)
-  y_max   <- max(df_sub$value, na.rm = TRUE)
-  y_text  <- y_min - 0.05 * (y_max - y_min)
-  
-  # 4) Build the plot
-  p <- ggplot(df_sub, aes(x = method, y = value, fill = method)) +
-    geom_hline(yintercept = 0, linetype = "dashed", color = "gray50") +
-    geom_boxplot(alpha = 0.7, outlier.alpha = 0.5) +
-    geom_violin(alpha = 0.3) +
-    
-    # annotate MAE and Mean Bias underneath
-    geom_text(
-      data = stats_df,
-      aes(x = method, y = y_text, label = label),
-      inherit.aes = FALSE,
-      vjust = 1, size = 4, fontface = "bold",
-      show.legend = FALSE
-    ) +
-    
-    scale_fill_manual(
-      values = method_colors,
-      labels = c("abc" = "ABC", "lstm" = "LSTM"),
-      name   = "Method"
-    ) +
-    scale_x_discrete(labels = c("abc" = "ABC", "lstm" = "LSTM")) +
-    
-    labs(
-      title    = param_label,
-      subtitle = if (param_name == "R0") "" else NULL,
-      x        = "Method",
-      y        = if (log_y) "Bias (log₁₀)" else "Bias"
-    ) +
-    
-    theme_minimal(base_size = 12) +
-    theme(
-      plot.title      = element_text(face = "bold", hjust = 0.5),
-      plot.subtitle   = element_text(size = 10, hjust = 0.5, color = "gray40"),
-      legend.position = "none",
-      panel.grid.minor = element_blank()
-    )
-  
-  # 5) optionally log‐scale Y
-  if (log_y) {
-    p <- p  # no log transformation applied in this code, but placeholder kept
-  }
-  
-  return(p)
-}
 
-p_R0    <- make_param_plot("R0",    "Basic Reproduction Number (R₀) Bias", log_y = FALSE)
-
-# 4. Save or display
-ggsave("bias_box_R0.png", p_R0, width = 4, height = 6, dpi = 300)

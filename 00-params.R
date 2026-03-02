@@ -13,8 +13,8 @@ library(cowplot)
 # --------------------------
 model_ndays <- 60   # simulation duration (days)
 model_seed  <- 122  # seed for reproducibility
-global_n    <- 5000  # population size (used in calibration)
-N_SIMS      <- 1000 # number of simulations to run
+global_n    <- 2000  # population size (used in calibration)
+N_SIMS      <- 5000 # number of simulations to run
 
 # --------------------------
 # Generate Parameter Sets using Theta
@@ -45,5 +45,5 @@ summary(theta_use)
 # Print the true parameter sets for reference
 # cat("True parameter sets:\n")
 # print(theta_use)
-saveRDS(theta_use, "theta_use.rds")
+saveRDS(theta_use, "~/sima/Calibrate_ABM/data-result/theta_use.rds")
 

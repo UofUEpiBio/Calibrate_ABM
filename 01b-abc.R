@@ -1,3 +1,10 @@
+#!/bin/sh
+#SBATCH --job-name=Sims_calibrate
+#SBATCH --account=vegayon-np
+#SBATCH --partition=vegayon-np
+#SBATCH --time=04:00:00
+#SBATCH --mem-per-cpu=4G
+#SBATCH --cpus-per-task=1
 # Load required libraries
 library(epiworldR)
 library(data.table)
@@ -7,7 +14,7 @@ library(dplyr)
 library(tidyverse)
 library(gridExtra)
 library(cowplot)
-source("~/Desktop/Sims_calibrate/00-params.R")
+source("~/sima/Calibrate_ABM/00-params.R")
 #theta_use
 # --------------------------
 # Global Simulation Settings
@@ -51,6 +58,7 @@ simulate_epidemic_observed <- function(params, ndays = model_ndays, seed = NULL)
   
   return(infected_counts)
 }
+
 
 # Fixed calibration simulation function
 simulate_epidemic_calib <- function(params, ndays = model_ndays, seed = NULL) {
@@ -198,6 +206,10 @@ simulate_and_calibrate <- function(true_params, sim_id) {
     # Get accepted parameters from the MCMC chain
     accepted <- get_all_accepted_params(lfmcmc_obj)
     
+    # Discard first 1000 as burn-in
+    burnin <- 1000
+    post_burnin <- tail(accepted, n = n_samples_calib - burnin)
+    
     # Calculate median parameters as our calibrated estimate
     if (!is.null(accepted) && nrow(accepted) > 0) {
       calibrated_params_raw <- apply(accepted, 2, median)
@@ -304,13 +316,13 @@ ans <- Slurm_lapply(
   X = 1:N_SIMS,
   FUN = function(i) simulate_and_calibrate(as.numeric(theta_use[i, ]), i),
   job_name = "Sims_calibrate",
-  njobs = 100,
+  njobs = 200,
   overwrite = TRUE,
-  plan = "submit",
+  plan = "collect",
   sbatch_opt = list(
-    partition = "vegayon-shared-np",
+    partition = "vegayon-np",
     account = "vegayon-np",
-    time = "01:00:00",
+    time = "04:00:00",
     `mem-per-cpu` = "4G",
     `cpus-per-task` = 1
   ),
@@ -330,31 +342,26 @@ ans <- Slurm_lapply(
   )
 )
 
-
-# FIXED: Complete the results collection
-results_list <- Slurm_collect(ans)
-
-# FIXED: Add result processing with error handling
-valid_results <- results_list[!sapply(results_list, is.null)]
-cat("Successfully completed", length(valid_results), "out of", N_SIMS, "simulations\n")
-
-# Combine results if there are valid ones
-if (length(valid_results) > 0) {
-  # Combine daily results
-  all_daily_results <- do.call(rbind, lapply(valid_results, function(x) x$daily_results))
-  
-  # Combine parameter comparisons
-  all_param_comparisons <- do.call(rbind, lapply(valid_results, function(x) x$param_comparison))
-  
-  # Combine ABC parameters
-  all_abc_parameters <- do.call(rbind, lapply(valid_results, function(x) x$abc_parameters))
-  
-  # Save results
-  write.csv(all_daily_results, "daily_results.csv", row.names = FALSE)
-  write.csv(all_param_comparisons, "param_comparisons.csv", row.names = FALSE)
-  write.csv(all_abc_parameters, "abc_parameters.csv", row.names = FALSE)
-  
-  cat("Results saved to CSV files\n")
-} else {
-  cat("No valid results to process\n")
-}
+#to save the results run this:
+# 
+# ans <- read_slurm_job("~/sima/Calibrate_ABM/Sims_calibrate")
+#  results_list <- Slurm_collect(ans, any. = TRUE)
+# valid_results <- results_list[sapply(results_list, function(x) {
+#   is.list(x) && !is.null(x$daily_results) && !is.null(x$param_comparison)
+# })]
+# 
+# cat("Successfully completed", length(valid_results), "out of", N_SIMS, "simulations\n")
+# 
+# if (length(valid_results) > 0) {
+#   all_daily_results   <- do.call(rbind, lapply(valid_results, function(x) x$daily_results))
+#   all_param_comparisons <- do.call(rbind, lapply(valid_results, function(x) x$param_comparison))
+#   all_abc_parameters  <- do.call(rbind, lapply(valid_results, function(x) x$abc_parameters))
+#   
+#   write.csv(all_daily_results,    "~/sima/Calibrate_ABM/data-result/daily_results.csv",    row.names = FALSE)
+#   write.csv(all_param_comparisons,"~/sima/Calibrate_ABM/data-result/param_comparisons.csv", row.names = FALSE)
+#   write.csv(all_abc_parameters,   "~/sima/Calibrate_ABM/data-result/abc_parameters.csv",   row.names = FALSE)
+#   
+#   cat("Results saved to CSV files\n")
+# } else {
+#   cat("No valid results to process\n")
+# }

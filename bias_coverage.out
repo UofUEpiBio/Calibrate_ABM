@@ -1,0 +1,37 @@
+── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.1.4     ✔ readr     2.1.5
+✔ forcats   1.0.0     ✔ stringr   1.5.1
+✔ ggplot2   4.0.1     ✔ tibble    3.2.1
+✔ lubridate 1.9.3     ✔ tidyr     1.3.1
+✔ purrr     1.0.4     
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
+Loading required package: parallel
+slurmR default option for `tmp_path` (used to store auxiliar files) set to:
+  /uufs/chpc.utah.edu/common/home/u1418987/sima/CopyOfSims_calibrate_paper
+You can change this and checkout other slurmR options using: ?opts_slurmR, or you could just type "opts_slurmR" on the terminal.
+Starting bias and coverage analysis for 5000 parameter sets...
+Each parameter set will be run 100 times for 60 days
+Submitting SLURM jobs for method: true
+The path /uufs/chpc.utah.edu/common/home/u1418987/sima/CopyOfSims_calibrate_paper/bias_coverage_true already exists. Since `overwrite = TRUE`,slurmR will remove the previous data.
+Submitting job...Submitted batch job 11219197
+Warning messages:
+1: In dir.create(path, recursive = TRUE) :
+  '/uufs/chpc.utah.edu/common/home/u1418987/sima/CopyOfSims_calibrate_paper/bias_coverage_true' already exists
+2: `X` is not a list. The function will coerce it into one using `as.list` 
+Submitting SLURM jobs for method: abc
+The path /uufs/chpc.utah.edu/common/home/u1418987/sima/CopyOfSims_calibrate_paper/bias_coverage_abc already exists. Since `overwrite = TRUE`,slurmR will remove the previous data.
+Submitting job...Submitted batch job 11219198
+Warning messages:
+1: In dir.create(path, recursive = TRUE) :
+  '/uufs/chpc.utah.edu/common/home/u1418987/sima/CopyOfSims_calibrate_paper/bias_coverage_abc' already exists
+2: `X` is not a list. The function will coerce it into one using `as.list` 
+Submitting SLURM jobs for method: lstm
+The path /uufs/chpc.utah.edu/common/home/u1418987/sima/CopyOfSims_calibrate_paper/bias_coverage_lstm already exists. Since `overwrite = TRUE`,slurmR will remove the previous data.
+Submitting job...Submitted batch job 11219199
+Warning messages:
+1: In dir.create(path, recursive = TRUE) :
+  '/uufs/chpc.utah.edu/common/home/u1418987/sima/CopyOfSims_calibrate_paper/bias_coverage_lstm' already exists
+2: `X` is not a list. The function will coerce it into one using `as.list` 

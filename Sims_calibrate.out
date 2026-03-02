@@ -1,0 +1,68 @@
+Thank you for using epiworldR! Please consider citing it in your work.
+You can find the citation information by running
+  citation("epiworldR")
+
+Attaching package: ‘dplyr’
+
+The following objects are masked from ‘package:data.table’:
+
+    between, first, last
+
+The following objects are masked from ‘package:stats’:
+
+    filter, lag
+
+The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ forcats   1.0.0     ✔ stringr   1.5.1
+✔ lubridate 1.9.3     ✔ tibble    3.2.1
+✔ purrr     1.0.4     ✔ tidyr     1.3.1
+✔ readr     2.1.5     
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::between()     masks data.table::between()
+✖ dplyr::filter()      masks stats::filter()
+✖ dplyr::first()       masks data.table::first()
+✖ lubridate::hour()    masks data.table::hour()
+✖ lubridate::isoweek() masks data.table::isoweek()
+✖ dplyr::lag()         masks stats::lag()
+✖ dplyr::last()        masks data.table::last()
+✖ lubridate::mday()    masks data.table::mday()
+✖ lubridate::minute()  masks data.table::minute()
+✖ lubridate::month()   masks data.table::month()
+✖ lubridate::quarter() masks data.table::quarter()
+✖ lubridate::second()  masks data.table::second()
+✖ lubridate::today()   masks epiworldR::today()
+✖ purrr::transpose()   masks data.table::transpose()
+✖ lubridate::wday()    masks data.table::wday()
+✖ lubridate::week()    masks data.table::week()
+✖ lubridate::yday()    masks data.table::yday()
+✖ lubridate::year()    masks data.table::year()
+ℹ Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
+
+Attaching package: ‘gridExtra’
+
+The following object is masked from ‘package:dplyr’:
+
+    combine
+
+
+Attaching package: ‘cowplot’
+
+The following object is masked from ‘package:lubridate’:
+
+    stamp
+
+slurmR default option for `tmp_path` (used to store auxiliar files) set to:
+  /uufs/chpc.utah.edu/common/home/u1418987/sima/CopyOfSims_calibrate_paper
+You can change this and checkout other slurmR options using: ?opts_slurmR, or you could just type "opts_slurmR" on the terminal.
+The path /uufs/chpc.utah.edu/common/home/u1418987/sima/CopyOfSims_calibrate_paper/Sims_calibrate already exists. Since `overwrite = TRUE`,slurmR will remove the previous data.
+Submitting job...Submitted batch job 11187430
+Error: Nothing to retrieve (see ?status). If this is a rerun, you can try using 'any. = TRUE' to read-in any output file available in the folder.
+In addition: Warning messages:
+1: In dir.create(path, recursive = TRUE) :
+  '/uufs/chpc.utah.edu/common/home/u1418987/sima/CopyOfSims_calibrate_paper/Sims_calibrate' already exists
+2: `X` is not a list. The function will coerce it into one using `as.list` 
+Execution halted

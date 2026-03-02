@@ -1,0 +1,110 @@
+[slurmR info] Loading variables and functions... done loading variables and functions.
+[slurmR info] Loading packages ... 
+Thank you for using epiworldR! Please consider citing it in your work.
+You can find the citation information by running
+  citation("epiworldR")
+
+Attaching package: ‘dplyr’
+
+The following objects are masked from ‘package:data.table’:
+
+    between, first, last
+
+The following objects are masked from ‘package:stats’:
+
+    filter, lag
+
+The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ forcats   1.0.0     ✔ stringr   1.5.1
+✔ lubridate 1.9.3     ✔ tibble    3.2.1
+✔ purrr     1.0.4     ✔ tidyr     1.3.1
+✔ readr     2.1.5     
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::between()     masks data.table::between()
+✖ dplyr::filter()      masks stats::filter()
+✖ dplyr::first()       masks data.table::first()
+✖ lubridate::hour()    masks data.table::hour()
+✖ lubridate::isoweek() masks data.table::isoweek()
+✖ dplyr::lag()         masks stats::lag()
+✖ dplyr::last()        masks data.table::last()
+✖ lubridate::mday()    masks data.table::mday()
+✖ lubridate::minute()  masks data.table::minute()
+✖ lubridate::month()   masks data.table::month()
+✖ lubridate::quarter() masks data.table::quarter()
+✖ lubridate::second()  masks data.table::second()
+✖ lubridate::today()   masks epiworldR::today()
+✖ purrr::transpose()   masks data.table::transpose()
+✖ lubridate::wday()    masks data.table::wday()
+✖ lubridate::week()    masks data.table::week()
+✖ lubridate::yday()    masks data.table::yday()
+✖ lubridate::year()    masks data.table::year()
+ℹ Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
+
+Attaching package: ‘gridExtra’
+
+The following object is masked from ‘package:dplyr’:
+
+    combine
+
+
+Attaching package: ‘cowplot’
+
+The following object is masked from ‘package:lubridate’:
+
+    stamp
+
+[slurmR info] done loading packages.
+Running simulation 998 of 5000 
+_________________________________________________________________________
+||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||Running simulation 999 of 5000 
+_________________________________________________________________________
+||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||Running simulation 1000 of 5000 
+_________________________________________________________________________
+||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||Running simulation 1001 of 5000 
+_________________________________________________________________________
+||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||Running simulation 1002 of 5000 
+_________________________________________________________________________
+||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||Running simulation 1003 of 5000 
+_________________________________________________________________________
+||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||Running simulation 1004 of 5000 
+_________________________________________________________________________
+||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||Running simulation 1005 of 5000 
+_________________________________________________________________________
+||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||Running simulation 1006 of 5000 
+_________________________________________________________________________
+||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||Running simulation 1007 of 5000 
+_________________________________________________________________________
+||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||Running simulation 1008 of 5000 
+_________________________________________________________________________
+||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+ *** caught segfault ***
+address 0x100000001, cause 'memory not mapped'
+
+Traceback:
+ 1: run_cpp(model, ndays, sample.int(10000, 1))
+ 2: run.epiworld_model(sim_model, ndays = ndays)
+ 3: run(sim_model, ndays = ndays)
+ 4: simulate_epidemic_calib(sim_params, ndays = model_ndays)
+ 5: simulation_fun(params, lfmcmc_obj, true_params)
+ 6: (function (params, lfmcmc_obj) {    return(simulation_fun(params, lfmcmc_obj, true_params))})(c(987.421663312759, 0.00416844204259909, 0.168349200824108), <pointer: 0x48551fb0>)
+ 7: run_lfmcmc_cpp(lfmcmc, as.double(params_init), as.integer(n_samples),     as.double(epsilon), sample.int(10000, 1))
+ 8: epiworldR::run_lfmcmc(lfmcmc = lfmcmc_obj, params_init = init_params,     n_samples = n_samples_calib, epsilon = epsilon, seed = model_seed +         sim_id + 100)
+ 9: doTryCatch(return(expr), name, parentenv, handler)
+10: tryCatchOne(expr, names, parentenv, handlers[[1L]])
+11: tryCatchList(expr, classes, parentenv, handlers)
+12: tryCatch({    cat("Running simulation", sim_id, "of", N_SIMS, "\n")    true_R0 <- (true_params[3] * true_params[5])/true_params[4]    observed_infected <- simulate_epidemic_observed(true_params,         ndays = model_ndays, seed = model_seed + sim_id)    dummy_model <- ModelSIRCONN(name = "dummy", n = as.integer(global_n),         prevalence = 0.1, contact_rate = 5, transmission_rate = 0.1,         recovery_rate = 0.1)    local_simulation_fun <- function(params, lfmcmc_obj) {        return(simulation_fun(params, lfmcmc_obj, true_params))    }    lfmcmc_obj <- LFMCMC(dummy_model)    lfmcmc_obj <- set_simulation_fun(lfmcmc_obj, local_simulation_fun)    lfmcmc_obj <- set_summary_fun(lfmcmc_obj, summary_fun)    lfmcmc_obj <- set_proposal_fun(lfmcmc_obj, proposal_fun)    lfmcmc_obj <- set_kernel_fun(lfmcmc_obj, kernel_fun)    lfmcmc_obj <- set_observed_data(lfmcmc_obj, observed_infected)    init_params <- c(5, 1/7, 0.0571)    n_samples_calib <- 2000    epsilon <- sqrt(sum(observed_infected^2)) * 0.05    epiworldR::run_lfmcmc(lfmcmc = lfmcmc_obj, params_init = init_params,         n_samples = n_samples_calib, epsilon = epsilon, seed = model_seed +             sim_id + 100)    accepted <- get_all_accepted_params(lfmcmc_obj)    burnin <- 1000    post_burnin <- tail(accepted, n = n_samples_calib - burnin)    if (!is.null(accepted) && nrow(accepted) > 0) {        calibrated_params_raw <- apply(accepted, 2, median)        abc_crate <- calibrated_params_raw[1]        abc_recov <- calibrated_params_raw[2]        abc_ptran <- calibrated_params_raw[3]        calibrated_params <- c(true_params[1], true_params[2],             abc_crate, abc_recov, abc_ptran)        abc_R0 <- (abc_crate * abc_ptran)/abc_recov    }    else {        calibrated_params <- true_params        abc_R0 <- true_R0        abc_crate <- true_params[3]        abc_recov <- true_params[4]        abc_ptran <- true_params[5]        cat("Warning: Using true parameters as calibration failed for simulation",             sim_id, "\n")    }    abc_predicted_infected <- simulate_epidemic_calib(calibrated_params,         ndays = model_ndays, seed = model_seed + sim_id + 200)    days <- 0:model_ndays    daily_results <- data.frame(sim_id = sim_id, day = days,         true_n = true_params[1], true_preval = true_params[2],         true_crate = true_params[3], true_recov = true_params[4],         true_ptran = true_params[5], true_R0 = true_R0, calib_preval = calibrated_params[2],         calib_crate = calibrated_params[3], calib_recov = calibrated_params[4],         calib_ptran = calibrated_params[5], calib_R0 = abc_R0,         observed_infected = observed_infected, abc_predicted_infected = abc_predicted_infected,         abc_bias = abc_predicted_infected - observed_infected,         abc_rel_bias = ifelse(observed_infected > 0, (abc_predicted_infected -             observed_infected)/observed_infected, NA))    param_comparison <- data.frame(sim_id = sim_id, parameter = c("contact_rate",         "recovery_rate", "transmission_prob"), true_value = c(true_params[3:5]),         abc_calibrated_value = c(abc_crate, abc_recov, abc_ptran),         abc_error_pct = c((abc_crate - true_params[3])/true_params[3] *             100, (abc_recov - true_params[4])/true_params[4] *             100, (abc_ptran - true_params[5])/true_params[5] *             100))    abc_parameters <- data.frame(sim_id = sim_id, true_n = true_params[1],         true_preval = true_params[2], true_crate = true_params[3],         true_recov = true_params[4], true_ptran = true_params[5],         true_R0 = true_R0, abc_preval = calibrated_params[2],         abc_crate = calibrated_params[3], abc_recov = calibrated_params[4],         abc_ptran = calibrated_params[5], abc_R0 = abc_R0)    return(list(daily_results = daily_results, param_comparison = param_comparison,         abc_parameters = abc_parameters))}, error = function(e) {    cat("Error in simulation", sim_id, ":", e$message, "\n")    return(NULL)})
+13: simulate_and_calibrate(as.numeric(theta_use[i, ]), i)
+14: FUN(X[[i]], ...)
+15: lapply(X = X, FUN = FUN, ...)
+16: parallel::mclapply(X = X, FUN = FUN, mc.cores = mc.cores)
+17: doTryCatch(return(expr), name, parentenv, handler)
+18: tryCatchOne(expr, names, parentenv, handlers[[1L]])
+19: tryCatchList(expr, classes, parentenv, handlers)
+20: tryCatch(..., error = function(e) e)
+21: tcq({    ans <- parallel::mclapply(X = X, FUN = FUN, mc.cores = mc.cores)})
+An irrecoverable exception occurred. R is aborting now ...
+/uufs/notchpeak.peaks/sys/var/slurm/slurmd.spool/notch365//job11187966/slurm_script: line 12: 345036 Segmentation fault      (core dumped) /uufs/chpc.utah.edu/sys/installdir/r8/R/4.4.0/lib64/R/bin/Rscript /uufs/chpc.utah.edu/common/home/u1418987/sima/CopyOfSims_calibrate_paper/Sims_calibrate/00-rscript.r

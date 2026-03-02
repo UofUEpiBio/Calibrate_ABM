@@ -31,3 +31,4 @@ figures_clear.R
 model_utils_debug.py
 model_utils_fixed.py
 *.swp
+.Rproj.user
