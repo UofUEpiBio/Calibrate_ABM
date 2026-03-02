@@ -1,15 +1,17 @@
 # 📊 Calibrate ABM
 <!-- badges: start -->
-<a href="https://github.com/EpiForeSITE"><img src="https://github.com/EpiForeSITE/software/raw/e82ed88f75e0fe5c0a1a3b38c2b94509f122019c/docs/assets/foresite-software-badge.svg"></a>
+<a href="https://github.com/EpiForeSITE">
+  <img src="https://github.com/EpiForeSITE/software/raw/e82ed88f75e0fe5c0a1a3b38c2b94509f122019c/docs/assets/foresite-software-badge.svg">
+</a>
 <!-- badges: end -->
 
 This repository contains R scripts for **epidemic simulation, parameter calibration, prediction, and evaluation** using agent-based epidemic models.
 
 The workflow integrates:
 
-- 🧮 Epidemic simulation via `epiworldR`  
+- 🧮 Epidemic simulation via [`epiworldR`](https://github.com/UofUEpiBio/epiworldR)  
 - 🎯 Approximate Bayesian Computation (ABC)  
-- 🤖 BiLSTM-based parameter calibration via `epiworldRcalibrate`
+- 🤖 BiLSTM-based parameter calibration via [`epiworldRcalibrate`](https://github.com/sima-njf/epiworldRcalibrate)  
 - 📈 Epidemic curve reconstruction and statistical evaluation  
 
 All simulations and calibration procedures are implemented in **R**.
@@ -21,6 +23,7 @@ All simulations and calibration procedures are implemented in **R**.
 The BiLSTM model used for parameter estimation is illustrated below:
 
 ![BiLSTM Architecture](bilstm_model.drawio.png)
+
 ## Architecture Overview
 
 **Inputs**
@@ -43,11 +46,12 @@ The BiLSTM model used for parameter estimation is illustrated below:
 **Outputs**
 - Transmission rate (sigmoid activation)  
 - Contact rate (softplus activation)  
-- \(R_0\) (softplus activation)  
+- R0 (softplus activation)  
 
 An epidemiological constraint is incorporated through:
 
-R0 = (contact rate × transmission rate) / recovery rate
+R0 = (contact rate × transmission rate) / recovery rate  
+
 This relationship is used as a penalty term during training to ensure epidemiological consistency.
 
 ---
@@ -86,7 +90,7 @@ Evaluates calibration performance:
 2. Simulate epidemic trajectories using `epiworldR`  
 3. Calibrate parameters using:
    - Approximate Bayesian Computation (ABC)
-   - BiLSTM model using `epiworldRcalibrate`  
+   - BiLSTM model via `epiworldRcalibrate`  
 4. Compare predicted vs. true parameters  
 5. Evaluate epidemic curve reconstruction accuracy  
 
@@ -95,7 +99,8 @@ Evaluates calibration performance:
 # 🛠 Requirements
 
 - R (≥ 4.x recommended)  
-- `epiworldRcalibrate`  
+- [`epiworldR`](https://github.com/UofUEpiBio/epiworldR)  
+- [`epiworldRcalibrate`](https://github.com/sima-njf/epiworldRcalibrate)  
 - Required R packages for simulation, machine learning, and visualization  
 
 Example installation:
@@ -132,14 +137,23 @@ The pipeline produces:
 
 ---
 
+# 🔗 Related Packages
+
+- [`epiworldR`](https://github.com/UofUEpiBio/epiworldR)
+- [`epiworldRcalibrate`](https://github.com/sima-njf/epiworldRcalibrate)
+
+---
+
+# 👤 Author
+
+Developed by **Sima Najafzadehkhoei**  
+GitHub: https://github.com/sima-njf  
+epiworldRcalibrate: https://github.com/sima-njf/epiworldRcalibrate  
+
+---
+
 # 📌 Notes
 
 - Scripts should be executed in order for reproducibility.
 - Ensure consistent random seeds when comparing calibration methods.
 - Results may vary depending on simulation size and parameter ranges.
-
-
-## 👤 Author
-
-Developed by **Sima Najafzadehkhoei**
-🔗 [https://github.com/sima-njf](https://github.com/sima-njf)
