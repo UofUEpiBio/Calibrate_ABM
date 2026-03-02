@@ -7,9 +7,9 @@ This repository contains R scripts for **epidemic simulation, parameter calibrat
 
 The workflow integrates:
 
-- 🧮 Epidemic simulation via `epiworldRcalibrate`  
+- 🧮 Epidemic simulation via `epiworldR`  
 - 🎯 Approximate Bayesian Computation (ABC)  
-- 🤖 BiLSTM-based parameter calibration  
+- 🤖 BiLSTM-based parameter calibration via `epiworldRcalibrate`
 - 📈 Epidemic curve reconstruction and statistical evaluation  
 
 All simulations and calibration procedures are implemented in **R**.
