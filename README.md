@@ -17,8 +17,9 @@ All simulations and calibration procedures are implemented in **R**.
 # 🧠 BiLSTM Calibration Architecture
 
 The BiLSTM model used for parameter estimation is illustrated below:
+![Uploading bilstm_model.drawio (3).png…]()
 
-![BiLSTM Architecture](bilstm_architecture.png)
+
 
 ## Architecture Overview
 
