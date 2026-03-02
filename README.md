@@ -80,10 +80,10 @@ Evaluates calibration performance:
 # 🔬 Methodological Workflow
 
 1. Generate simulation parameters  
-2. Simulate epidemic trajectories using `epiworldRcalibrate`  
+2. Simulate epidemic trajectories using `epiworldR`  
 3. Calibrate parameters using:
    - Approximate Bayesian Computation (ABC)
-   - BiLSTM regression model  
+   - BiLSTM model using `epiworldRcalibrate`  
 4. Compare predicted vs. true parameters  
 5. Evaluate epidemic curve reconstruction accuracy  
 
