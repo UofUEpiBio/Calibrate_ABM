@@ -17,8 +17,7 @@ All simulations and calibration procedures are implemented in **R**.
 
 The BiLSTM model used for parameter estimation is illustrated below:
 
-![BiLSTM Architecture](~/sima/Calibrate_ABM/figures/bilstm_model.drawio.png)
-
+![BiLSTM Architecture](bilstm_model.drawio.png)
 ## Architecture Overview
 
 **Inputs**
@@ -45,10 +44,7 @@ The BiLSTM model used for parameter estimation is illustrated below:
 
 An epidemiological constraint is incorporated through:
 
-\[
-R_0 = \frac{\text{contact rate} \times \text{transmission rate}}{\text{recovery rate}}
-\]
-
+R0 = (contact rate × transmission rate) / recovery rate
 This relationship is used as a penalty term during training to ensure epidemiological consistency.
 
 ---
