@@ -137,3 +137,9 @@ The pipeline produces:
 - Scripts should be executed in order for reproducibility.
 - Ensure consistent random seeds when comparing calibration methods.
 - Results may vary depending on simulation size and parameter ranges.
+
+
+## 👤 Author
+
+Developed by **Sima Najafzadehkhoei**
+🔗 [https://github.com/sima-njf](https://github.com/sima-njf)
