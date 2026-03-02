@@ -1,84 +1,141 @@
+# 📊 Calibrate_ABM
 
-# 📊 Sims_calibrate
 
-This repository contains R scripts for **parameter generation**, **model loading**, **calibration**, **prediction**, and **analysis** for epidemic simulation studies.  
-Whether you want to run simulations 🧮, calibrate predictions 🔍, or visualize epidemic curves 📈 — this project has you covered.
+This repository contains R scripts for **epidemic simulation, parameter calibration, prediction, and evaluation** using agent-based epidemic models.
+
+The workflow integrates:
+
+- 🧮 Epidemic simulation via `epiworldRcalibrate`  
+- 🎯 Approximate Bayesian Computation (ABC)  
+- 🤖 BiLSTM-based parameter calibration  
+- 📈 Epidemic curve reconstruction and statistical evaluation  
+
+All simulations and calibration procedures are implemented in **R**.
 
 ---
 
-## 📂 File Descriptions
+# 🧠 BiLSTM Calibration Architecture
+
+The BiLSTM model used for parameter estimation is illustrated below:
+
+![BiLSTM Architecture](bilstm_architecture.png)
+
+## Architecture Overview
+
+**Inputs**
+- Incidence time series (T = 60)
+- Additional epidemiological inputs:
+  - Population size (n)
+  - Recovery rate
+
+**Model Structure**
+- 3 stacked Bidirectional LSTM layers  
+- 160 hidden units  
+- Dropout = 0.5  
+- Forward and backward hidden states concatenated  
+- Epidemiological covariates concatenated with LSTM output  
+
+**Fully Connected Layers**
+- Linear: 322 → 64 (ReLU activation)  
+- Linear: 64 → 3 outputs  
+
+**Outputs**
+- Transmission rate (sigmoid activation)  
+- Contact rate (softplus activation)  
+- \(R_0\) (softplus activation)  
+
+An epidemiological constraint is incorporated through:
+
+\[
+R_0 = \frac{\text{contact rate} \times \text{transmission rate}}{\text{recovery rate}}
+\]
+
+This relationship is used as a penalty term during training to ensure epidemiological consistency.
+
+---
+
+# 📂 Repository Structure
+
+## Core Scripts
 
 ### `00-params.R`
-📝 Generates the **simulation parameters** used throughout the analysis.
+Generates parameter sets used for epidemic simulations.
 
 ### `01a-bilstm.R`
-🤖 Loads the **pre-trained BiLSTM model** for epidemic curve prediction.
+Implements the BiLSTM-based calibration workflow using epidemic trajectories generated via `epiworldRcalibrate`.
 
 ### `01b-abc.R`
-🎯 Applies **Approximate Bayesian Computation (ABC)** for calibration.
+Performs Approximate Bayesian Computation (ABC) for parameter estimation from simulated epidemic curves.
 
 ### `02-abc-bilstm-prediction.R`
-🔗 Combines **ABC calibration** with **BiLSTM predictions** and saves the results.
+Combines ABC and BiLSTM calibration outputs and produces final predicted parameter values.
 
 ### `03-epicurves-stats.R`
-📈 Generates **epidemic curves** from the predicted parameters.
+Generates epidemic curves from calibrated parameters and compares reconstruction accuracy across methods.
 
 ### `04-parameter-stats.R`
-📊 Analyzes predicted parameters to find **bias** and create **boxplots**.
+Evaluates calibration performance:
+- Bias computation  
+- Estimated vs. true parameter comparison  
+- Statistical summaries  
+- Visualization of parameter distributions  
 
 ---
 
-## 📦 Additional Resources
+# 🔬 Methodological Workflow
 
-### `LSTM_model/`
-📁 Contains the **pre-trained BiLSTM model** used for machine learning–based calibration.  
-These models are loaded by `01a-bilstm.R` and used to improve prediction accuracy.
-
-### `model_evaluation/`
-📁 Contains **PyTorch code** for reading and processing epidemic simulation results:
-- Loads `incidence.csv` 📄 (epidemic incidence data)
-- Loads `theta.csv` 📄 (model parameter values)
-- Trains and evaluates a PyTorch-based deep learning model for epidemic forecasting.
+1. Generate simulation parameters  
+2. Simulate epidemic trajectories using `epiworldRcalibrate`  
+3. Calibrate parameters using:
+   - Approximate Bayesian Computation (ABC)
+   - BiLSTM regression model  
+4. Compare predicted vs. true parameters  
+5. Evaluate epidemic curve reconstruction accuracy  
 
 ---
 
-## 🛠️ Project Notes
-* **R version:** Ensure you’re using a compatible R version 📦 with all required packages installed.
-* **Execution order:** Run scripts in the order listed above for consistent results.
-* **Outputs:** Predictions, epidemic curves, and statistical plots are saved in the designated output folders.
+# 🛠 Requirements
+
+- R (≥ 4.x recommended)  
+- `epiworldRcalibrate`  
+- Required R packages for simulation, machine learning, and visualization  
+
+Example installation:
+
+```r
+install.packages("epiworldRcalibrate")
+```
 
 ---
 
-## 🚀 Getting Started
+# 🚀 Running the Pipeline
 
-1️⃣ **Generate parameters**
+Run scripts sequentially:
+
 ```bash
 Rscript 00-params.R
-````
-
-2️⃣ **Load model & run calibration**
-
-```bash
 Rscript 01a-bilstm.R
 Rscript 01b-abc.R
-```
-
-3️⃣ **Combine calibration & predictions**
-
-```bash
 Rscript 02-abc-bilstm-prediction.R
-```
-
-4️⃣ **Generate epicurves**
-
-```bash
 Rscript 03-epicurves-stats.R
-```
-
-5️⃣ **Analyze parameter statistics**
-
-```bash
 Rscript 04-parameter-stats.R
 ```
 
+---
 
+# 📈 Outputs
+
+The pipeline produces:
+
+- Calibrated parameter estimates  
+- Predicted epidemic trajectories  
+- Bias and performance summaries  
+- Comparative epidemic curve visualizations  
+
+---
+
+# 📌 Notes
+
+- Scripts should be executed in order for reproducibility.
+- Ensure consistent random seeds when comparing calibration methods.
+- Results may vary depending on simulation size and parameter ranges.
