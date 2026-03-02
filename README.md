@@ -1,4 +1,4 @@
-# 📊 Sims_calibrate
+# 📊 Calibrate ABM
 
 This repository contains R scripts for **epidemic simulation, parameter calibration, prediction, and evaluation** using agent-based epidemic models.
 
@@ -17,7 +17,7 @@ All simulations and calibration procedures are implemented in **R**.
 
 The BiLSTM model used for parameter estimation is illustrated below:
 
-![BiLSTM Architecture](~/sima/Calibrate_ABM2/figures/bilstm_model.drawio.png)
+![BiLSTM Architecture](~/sima/Calibrate_ABM/figures/bilstm_model.drawio.png)
 
 ## Architecture Overview
 
